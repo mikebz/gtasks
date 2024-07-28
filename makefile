@@ -34,7 +34,7 @@ install:
 
 .PHONY: test
 test:
-	go test $(packages)
+	go test -v $(packages)
 
 .PHONY: bench
 bench:
@@ -56,7 +56,7 @@ clean:
 
 .PHONY: license-headers
 license-headers: "$(gobin)/addlicense"
-	"$(gobin)/addlicense" -v -c "Google LLC" -f LICENSE_TEMPLATE -ignore=vendor/** -ignore=out/** . 2>&1 | sed '/ skipping: / d'
+	"$(gobin)/addlicense" -v -c "Mike Borozdin" -f LICENSE_TEMPLATE -ignore=vendor/** -ignore=out/** . 2>&1 | sed '/ skipping: / d'
 
 .PHONY: lint-license-headers
 lint-license-headers: "$(gobin)/addlicense"

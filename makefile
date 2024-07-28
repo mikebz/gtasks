@@ -56,7 +56,7 @@ clean:
 
 .PHONY: license-headers
 license-headers: "$(gobin)/addlicense"
-	"$(gobin)/addlicense" -v -c "Mike Borozdin" -f LICENSE_TEMPLATE -ignore=vendor/** -ignore=out/** . 2>&1 | sed '/ skipping: / d'
+	find . -type f -name "*.go" ! -path "*/vendor/*" | xargs $(gobin)/addlicense -c "Mike Borozdin"
 
 .PHONY: lint-license-headers
 lint-license-headers: "$(gobin)/addlicense"

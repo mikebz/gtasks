@@ -60,4 +60,4 @@ license-headers: "$(gobin)/addlicense"
 
 .PHONY: lint-license-headers
 lint-license-headers: "$(gobin)/addlicense"
-	"${gobin}/addlicense" -check -ignore=vendor/** -ignore=out/** . 2>&1 | sed '/ skipping: / d'
+	find . -type f -name "*.go" ! -path "*/vendor/*" | xargs $(gobin)/addlicense --check 

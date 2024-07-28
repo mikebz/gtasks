@@ -74,6 +74,9 @@ func Tasks() ([]string, error) {
 	tasklist := listResult.Items[0]
 
 	tlCall := tasksService.Tasks.List(tasklist.Id)
+	tlCall.ShowHidden(true)
+	tlCall.ShowCompleted(false)
+	tlCall.ShowAssigned(true)
 	tasksList, err := tlCall.Do()
 	if err != nil {
 		return nil, err

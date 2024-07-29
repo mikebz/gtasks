@@ -24,13 +24,13 @@ build:
 	echo build number $(buildnum)
 	mkdir -p $(output)
 	go build -o $(output)/$(name) \
-		-ldflags "-X github.com/mikebz/kgr/cmd.Version=$(version) -X 'github.com/mikebz/kgr/cmd.Build=$(buildnum)'"
+		-ldflags "-X github.com/mikebz/$(name)/cmd.Version=$(version) -X 'github.com/mikebz/$(name)/cmd.Build=$(buildnum)'"
 
 .PHONY: install
 install:
 	echo installing version $(version)
 	echo installing build number $(buildnum)
-	go install -ldflags "-X github.com/mikebz/kgr/cmd.Version=$(version) -X 'github.com/mikebz/kgr/cmd.Build=$(buildnum)'"
+	go install -ldflags "-X github.com/mikebz/$(name)/cmd.Version=$(version) -X 'github.com/mikebz/$(name)/cmd.Build=$(buildnum)'"
 
 .PHONY: test
 test:

@@ -1,5 +1,7 @@
 # gTask CLI
 
+Allows you to view your current tasks from command line.
+
 
 ## Logging in
 gcloud auth application-default login --scopes=https://www.googleapis.com/auth/tasks.readonly,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/userinfo.email,openid

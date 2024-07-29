@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	hiddenFlag    bool
+	allFlag       bool
 	completedFlag bool
 	assignedFlag  bool
 )
@@ -22,7 +22,7 @@ var tasksCmd = &cobra.Command{
 	Long: `Show a list of tasks based on the API:
 https://developers.google.com/tasks/reference/rest/v1/tasks/list`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		tasks, err := tasks.Tasks(hiddenFlag,
+		tasks, err := tasks.Tasks(allFlag,
 			completedFlag, assignedFlag)
 		if err != nil {
 			return err
@@ -36,7 +36,7 @@ https://developers.google.com/tasks/reference/rest/v1/tasks/list`,
 
 func init() {
 	rootCmd.AddCommand(tasksCmd)
-	tasksCmd.PersistentFlags().BoolVarP(&hiddenFlag, "hidden", "h", false, "Show hidden tasks")
+	tasksCmd.PersistentFlags().BoolVar(&allFlag, "all", false, "Show all, including hidden")
 	tasksCmd.PersistentFlags().BoolVarP(&completedFlag, "completed", "c", false, "Show completed tasks")
 	tasksCmd.PersistentFlags().BoolVarP(&assignedFlag, "assigned", "a", true, "Show assigned tasks")
 	tasksCmd.Flags()

@@ -51,7 +51,7 @@ func Lists() ([]string, error) {
 
 // Tasks return a list of tasks
 // in a text format.
-func Tasks() ([]string, error) {
+func Tasks(hidden bool, completed bool, assigned bool) ([]string, error) {
 	ctx := context.Background()
 	tasksService, err := tasks.NewService(
 		ctx,
@@ -74,9 +74,9 @@ func Tasks() ([]string, error) {
 	tasklist := listResult.Items[0]
 
 	tlCall := tasksService.Tasks.List(tasklist.Id)
-	tlCall.ShowHidden(true)
-	tlCall.ShowCompleted(false)
-	tlCall.ShowAssigned(true)
+	tlCall.ShowHidden(hidden)
+	tlCall.ShowCompleted(completed)
+	tlCall.ShowAssigned(assigned)
 	tasksList, err := tlCall.Do()
 	if err != nil {
 		return nil, err

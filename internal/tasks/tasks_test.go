@@ -23,7 +23,7 @@ import (
 func TestTasks(t *testing.T) {
 
 	// Call the List function with the mock service
-	tasks, err := Tasks()
+	tasks, err := Tasks(true, false, true)
 	assert.NoError(t, err)
 	assert.NotNil(t, tasks)
 }

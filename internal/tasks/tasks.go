@@ -17,6 +17,8 @@ package tasks
 import (
 	"context"
 	"errors"
+	"strings"
+	"time"
 
 	"google.golang.org/api/option"
 	"google.golang.org/api/tasks/v1"
@@ -25,11 +27,7 @@ import (
 // List return a list of tasks
 // in a text format.
 func Lists() ([]string, error) {
-	ctx := context.Background()
-	tasksService, err := tasks.NewService(
-		ctx,
-		option.WithScopes(tasks.TasksReadonlyScope),
-	)
+	tasksService, err := createTaskService()
 	if err != nil {
 		return nil, err
 	}
@@ -51,12 +49,8 @@ func Lists() ([]string, error) {
 
 // Tasks return a list of tasks
 // in a text format.
-func Tasks(hidden bool, completed bool, assigned bool) ([]string, error) {
-	ctx := context.Background()
-	tasksService, err := tasks.NewService(
-		ctx,
-		option.WithScopes(tasks.TasksReadonlyScope),
-	)
+func Tasks(hidden bool, completed bool, assigned bool) ([]*tasks.Task, error) {
+	tasksService, err := createTaskService()
 	if err != nil {
 		return nil, err
 	}
@@ -81,12 +75,43 @@ func Tasks(hidden bool, completed bool, assigned bool) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	return tasksList.Items, nil
+}
 
-	result := make([]string, len(tasksList.Items))
+func TaskToLine(task *tasks.Task) string {
+	return `- ` + task.Title
+}
 
-	for i, task := range tasksList.Items {
-		result[i] = task.Title
+func TaskVerbose(task *tasks.Task) string {
+
+	var r strings.Builder
+	r.WriteString("- " + task.Title + "\n")
+	if task.Due != "" {
+		r.WriteString("  Due: " + taskDueString(task) + "\n")
 	}
+	r.WriteString("  " + task.Notes + "\n")
 
-	return result, nil
+	return r.String()
+}
+
+func taskDueString(task *tasks.Task) string {
+	parsed, err := time.Parse(time.RFC3339, task.Due)
+	if err == nil {
+		formatted := parsed.Format("2006-01-02")
+		return formatted
+	}
+	return ""
+}
+
+// Single function to create a task service
+// created as one function because we are anticipating
+// that the authentication methods are going to make this
+// much more complex going forward.
+func createTaskService() (*tasks.Service, error) {
+	ctx := context.Background()
+	tasksService, err := tasks.NewService(
+		ctx,
+		option.WithScopes(tasks.TasksReadonlyScope),
+	)
+	return tasksService, err
 }

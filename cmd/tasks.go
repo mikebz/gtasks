@@ -36,8 +36,8 @@ https://developers.google.com/tasks/reference/rest/v1/tasks/list`,
 
 func init() {
 	rootCmd.AddCommand(tasksCmd)
-	tasksCmd.PersistentFlags().BoolVar(&allFlag, "all", false, "Show all, including hidden")
-	tasksCmd.PersistentFlags().BoolVarP(&completedFlag, "completed", "c", false, "Show completed tasks")
-	tasksCmd.PersistentFlags().BoolVarP(&assignedFlag, "assigned", "a", true, "Show assigned tasks")
+	tasksCmd.Flags().BoolVar(&allFlag, "all", false, "Show all, including hidden")
+	tasksCmd.Flags().BoolVarP(&completedFlag, "completed", "c", false, "Show completed tasks")
+	tasksCmd.Flags().BoolVarP(&assignedFlag, "assigned", "a", true, "Show assigned tasks")
 	tasksCmd.Flags()
 }
